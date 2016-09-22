@@ -19,12 +19,13 @@ int movingY;
 	background(255);
 
  	for (int i = 0; i < colony.length; i ++) {
- 		colony[i].show();
- 		colony[i].move();
+  		colony[i].move();
+  		colony[i].show();
  	}
 
- 	bigBoy.show();
  	bigBoy.move();
+ 	bigBoy.show();
+
  }
 
  class Bacteria {     
@@ -70,21 +71,29 @@ int movingY;
  		
  	}
 
+	
+
  	void show () {
- 		if (get(myX, myY) != color(255, 0, 0)) {
- 			alive = true;
- 		} else {
- 			alive = false;
- 		}
+ 		if (get(myX, myY) == color(255, 0, 0)) {
+			alive = false;
+		} else {
+			alive = true;
+		}
  
  		if (alive == true) {
 	 		fill(myColor);
 	 		ellipse(myX, myY, mySize, mySize);
 		} else if (alive == false) {
-			noFill();
-			noStroke();
+			myX = 1000000000;
+			myY = 1000000000;
+			movingX = 0;
+			movingY = 0;
+			alive = false;
 		}
+		System.out.println(alive);
  	}
+
+
 
  }    
 
