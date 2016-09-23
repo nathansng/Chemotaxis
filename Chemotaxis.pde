@@ -12,7 +12,7 @@ int eaten = 0;
 
  void setup() { 
  	size(400, 400);    
- 	colony = new Bacteria [500];
+ 	colony = new Bacteria [100];
  	for (int i = 0; i < colony.length; i ++) {
  		colony[i] = new Bacteria();
  	}  
