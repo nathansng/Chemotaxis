@@ -1,30 +1,39 @@
  Bacteria [] colony;
- Predator bigBoy;  
+ Predator bigBoy, bigBoy2;  
 
 int movingX;
 int movingY;
 
+int bigBoyX = (int) (Math.random() * 100);
+int bigBoyY = (int) (Math.random() * 100);
+
+
+int eaten = 0;
+
  void setup() { 
  	size(400, 400);    
- 	colony = new Bacteria [10];
+ 	colony = new Bacteria [500];
  	for (int i = 0; i < colony.length; i ++) {
  		colony[i] = new Bacteria();
  	}  
 
- 	bigBoy = new Predator();
+ 	bigBoy = new Predator(bigBoyX, bigBoyY);
 
  }
 
  void draw() {
 	background(255);
 
+  	bigBoy.move();
+ 	bigBoy.show();
+
+
  	for (int i = 0; i < colony.length; i ++) {
   		colony[i].move();
   		colony[i].show();
  	}
 
- 	bigBoy.move();
- 	bigBoy.show();
+ 	
 
  }
 
@@ -75,6 +84,10 @@ int movingY;
 
  	void show () {
  		if (get(myX, myY) == color(255, 0, 0)) {
+ 			if (eaten < 1000) {
+ 				eaten = eaten + 1;
+ 			}
+			
 			alive = false;
 		} else {
 			alive = true;
@@ -84,13 +97,23 @@ int movingY;
 	 		fill(myColor);
 	 		ellipse(myX, myY, mySize, mySize);
 		} else if (alive == false) {
-			myX = 1000000000;
-			myY = 1000000000;
-			movingX = 0;
-			movingY = 0;
-			alive = false;
+			int randomLocation = (int) (Math.random() * 4);
+			if (randomLocation == 0) {
+				myX = (int) (Math.random() * 50) - 200;
+				myY = (int) (Math.random() * 400);
+			} else if (randomLocation == 1) {
+				myX = (int) (Math.random() * 50) + 600;
+				myY = (int) (Math.random() * 400);
+			} else if (randomLocation == 2) {
+				myX = (int) (Math.random() * 400);
+				myY = (int) (Math.random() * 50) - 200;
+			} else if (randomLocation == 3) {
+				myX = (int) (Math.random() * 400);
+				myY = (int) (Math.random() * 50 ) + 600;
+			}
+
+			alive = true;
 		}
-		System.out.println(alive);
  	}
 
 
@@ -100,16 +123,16 @@ int movingY;
  class Predator {
  	int myX, myY, mySize, myColor;
 
- 	Predator () {
- 		myX = 30;
- 		myY = 30;
+ 	Predator (int x, int y) {
+ 		myX = x;
+ 		myY = y;
  		mySize = 20;
  		myColor = color (255, 0, 0);
  	}
 
  	void show () {
  		fill(myColor);
- 		ellipse(myX, myY, mySize, mySize);
+ 		ellipse(myX, myY, mySize + eaten / 5, mySize + eaten / 5);
  	}
 
  	void move () {
